@@ -4,20 +4,18 @@ import Home from './Pages/HomePage'
 import Login from './Pages/Login'
 import Auth from './Pages/Auth'
 function App() {
+  //Retrieving PKCE Code and state.
   const pkce_code = generate_pkce_code();
- console.log(pkce_code)
   const code_verifier = pkce_code.code_verifier
   const state =  pkce_code.state
   const code_challenge = pkce_code.code_challenge
-   console.log("appstate" + state)
 
-  const userToken =  localStorage.getItem("UserIDToken")
    
   return (
     <Routes>
     
-      <Route exact path='/' element={ userToken ? <Home /> : <Navigate to="/login"/> } />
-      <Route exact path='/login' element={userToken ? <Navigate to="/"/> : <Login state={state} code_challenge={code_challenge} code_verifier={code_verifier}/>}/>
+      <Route exact path='/home' element={ <Home /> } />
+      <Route  path='/' element={ <Login state={state} code_challenge={code_challenge} code_verifier={code_verifier}/>}/>
       <Route  path='/auth/tala/callback' element={<Auth state={state} code_challenge={code_challenge} code_verifier={code_verifier} />}/>
     </Routes>
   )
